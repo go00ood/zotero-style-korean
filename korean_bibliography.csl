@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style class="in-text" version="1.0" page-range-format="expanded" xmlns="http://purl.org/net/xbiblio/csl">
+  <info>
+    <title>korean_bibliography</title>
+    <id>http://www.example.com/styles/korean_bibliography</id> 
+    <author>
+      <name>go00od</name> 
+    </author>
+    <category citation-format="author-date"/> 
+    <updated>2025-01-17T00:00:00+00:00</updated>
+
+  </info>
+
+  <locale xml:lang="ko">
+    <terms>
+      <term name="editor" form="verb-short"></term>
+      <term name="translator" form="verb-short">역</term>
+      <term name="volume"></term>
+      <term name="issue"></term>
+      <term name="accessed"></term>
+      <term name="et-al" form="short">외</term>
+    </terms>
+  </locale>
+
+  <!-- 매크로: 저자 및 기여자 -->
+  <macro name="contributors">
+    <names variable="author" >
+      <name delimiter-precedes-last="always" name-as-sort-order="first" delimiter="·" />
+    </names>
+  </macro>
+
+  <!-- 매크로: 날짜 -->
+  <macro name="date">
+    <choose>
+      <if variable="issued">
+        <date variable="issued">
+          <date-part name="year"/>
+        </date>
+      </if>
+      <else>
+        <text term="no date"/>
+      </else>
+    </choose>
+  </macro>
+
+
+  <!-- 매크로: 제목 -->
+  <macro name="title">
+    <text variable="title" text-case="title" />
+  </macro>
+
+  <!-- 매크로: 컨테이너 정보 -->
+  <macro name="container-info">
+    <choose>
+      <!-- 시리즈 제목이 있는 경우 -->
+      <if variable="collection-title">
+          <text variable="collection-title"/>
+          <group>
+            <text variable="volume" prefix=' ' suffix=""/>
+            <text variable="issue" prefix="(" suffix=")"/>
+          </group>
+          <text variable="container-title" font-style="italic" prefix=", " />
+
+          <text variable="page" prefix=", "/>
+          
+      </if>
+      <!-- 시리즈 제목이 없는 경우 -->
+      <else>
+        <group delimiter="">
+          <text variable="container-title" font-style="italic" suffix=" " />
+          <group>
+            <text variable="volume" suffix=""/>
+            <text variable="issue" prefix="(" suffix=")"/>
+          </group>
+          <text variable="page" prefix=", "/>
+        </group>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- 매크로: 대학 정보 -->
+  <macro name="university-info">
+    <group delimiter=" ">
+      <text variable="publisher"/> 
+      <text variable="genre" text-case="capitalize-first" suffix="학위논문"/>
+    </group>
+  </macro>
+
+  <!-- 인용 형식 -->
+  <citation et-al-min="4" et-al-use-first="1" collapse="year" >
+    <layout prefix="(" suffix=")" delimiter="; ">
+      <group delimiter=", ">
+        <text macro="contributors"/>
+        <text macro="date"/>
+      </group>
+
+    </layout>
+  </citation>
+
+  <!-- 참고문헌 형식 -->
+  <bibliography hanging-indent="true" et-al-min="11" et-al-use-first="7">
+    <sort>
+      <key macro="contributors"/>
+      <key variable="issued"/>
+      <key variable="title"/>
+    </sort>
+    <layout suffix=".">
+      <text macro="contributors"/>
+      <text macro="date" prefix="(" suffix="), "/>
+      <group delimiter="">
+        <text macro="title"/>
+        <text macro="container-info" prefix=", "/>
+      </group>
+            <!-- 학위논문/ 책일 경우 -->
+      <choose>
+        <if type="thesis">
+          <text macro="university-info" prefix=", "/>
+        </if>
+      </choose>
+      <choose>
+        <if type="book">
+            <text variable="publisher" prefix=", "/>
+        </if>
+
+      </choose>
+
+    </layout>
+  </bibliography>
+</style>
+
